@@ -1,0 +1,63 @@
+  Project: Sports Video Classification (Basketball vs Football)
+This project involves breaking down videos into frames, applying Sobel filters to highlight edges, and using KMeans clustering to classify the sports (Basketball or Football) based on edge features.
+
+  extract_frames.py
+Purpose:
+Extracts image frames from videos at a consistent frame rate (1 FPS by default). Each class of sport (like "Basketball" or "Football") has its own folder in the videos/ directory, and extracted frames are saved in frames/.
+
+Main Functions:
+
+ensure_dir(path): Creates directories if they don't exist.
+
+extract_frames_from_video(): Reads the video, and saves every N-th frame based on FPS.
+
+main(): Loops through all videos and runs the extractor.
+
+Usage:
+Just run the script. It will go through all class folders in videos/ and save PNG frames in the frames/ folder.
+
+  apply_sobel_filters.py
+Purpose:
+Processes extracted video frames by applying a Sobel filter, which highlights edges. This is useful for detecting motion and structure differences between sports. It also calculates simple stats (mean and std deviation of edge intensities) and saves them for later.
+
+Main Functions:
+
+apply_sobel(image): Applies the Sobel filter on an image and returns the edge map.
+
+process_frames(): Applies the filter to each frame, saves filtered images, and logs stats like mean_edge and std_edge.
+
+Outputs:
+
+Filtered images are saved in filtered/.
+
+A CSV file (frame_features (N).csv) with edge stats per frame is generated.
+
+Usage:
+Just run the script after extracting frames. It will process all frames and prepare the data for clustering.
+
+  kmeans_clustering.py
+Purpose:
+Uses KMeans clustering on edge features (mean_edge, std_edge) to group frames into 2 clusters. These clusters are then mapped to actual sport labels using majority voting.
+
+Main Functions:
+
+load_features(): Loads features from the CSV.
+
+plot_clusters(): Visualizes the clustering.
+
+map_clusters_to_classes(): Assigns clusters to actual class names (Basketball or Football).
+
+main(): The full pipeline—loads data, normalizes, clusters, evaluates, and saves models.
+
+Outputs:
+
+Updates frame_features.csv with cluster labels.
+
+Saves plots: cluster_plot.png, confusion_matrix.png
+
+Saves models: scaler.pkl, kmeans_model.pkl
+
+Prints overall accuracy of clustering.
+
+Usage:
+Run it after you've applied Sobel filters. It'll train the clustering model and show how well it grouped the sports.
